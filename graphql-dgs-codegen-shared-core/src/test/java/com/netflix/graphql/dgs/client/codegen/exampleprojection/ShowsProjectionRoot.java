@@ -58,23 +58,23 @@ public class ShowsProjectionRoot extends BaseProjectionNode {
     }
 
     public static class Shows_ReviewsProjection extends BaseSubProjectionNode<ShowsProjectionRoot, ShowsProjectionRoot> {
-      public Shows_ReviewsProjection(ShowsProjectionRoot parent, ShowsProjectionRoot root) {
-        super(parent, root);
-      }
+        public Shows_ReviewsProjection(ShowsProjectionRoot parent, ShowsProjectionRoot root) {
+            super(parent, root);
+        }
 
-      public Shows_ReviewsProjection username() {
-        getFields().put("username", null);
-        return this;
-      }
+        public Shows_ReviewsProjection username() {
+            getFields().put("username", null);
+            return this;
+        }
 
-      public Shows_ReviewsProjection starScore() {
-        getFields().put("starScore", null);
-        return this;
-      }
+        public Shows_ReviewsProjection starScore() {
+            getFields().put("starScore", null);
+            return this;
+        }
 
-      public Shows_ReviewsProjection submittedDate() {
-        getFields().put("submittedDate", null);
-        return this;
-      }
+        public Shows_ReviewsProjection submittedDate() {
+            getFields().put("submittedDate", null);
+            return this;
+        }
     }
 }
