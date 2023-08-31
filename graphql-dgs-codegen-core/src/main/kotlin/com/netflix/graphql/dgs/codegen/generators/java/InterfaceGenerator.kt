@@ -89,7 +89,10 @@ class InterfaceGenerator(private val config: CodeGenConfig, private val document
         val implementations = document.getDefinitionsOfType(ObjectTypeDefinition::class.java).asSequence()
             .filter { node -> node.implements.any { it.isEqualTo(TypeName(definition.name)) } }
             .map { node ->
-                val nodeName = if (config.generateInterfaces) "I${node.name}" else node.name
+                val nodeName = if (config.generateInterfaces) { "I${node.name}"
+                } else {
+                    node.name
+                }
                 typeUtils.findJavaInterfaceName(nodeName, packageName)
             }
             .filterIsInstance<ClassName>()

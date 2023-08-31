@@ -296,7 +296,10 @@ fun customAnnotation(annotationArgumentMap: MutableMap<String, Value<Value<*>>>,
     val (packageName, simpleName) = PackageParserUtil.getAnnotationPackage(
         config,
         (annotationArgumentMap[ParserConstants.NAME] as StringValue).value,
-        if (annotationArgumentMap.containsKey(ParserConstants.TYPE) && annotationArgumentMap[ParserConstants.TYPE] !is NullValue) (annotationArgumentMap[ParserConstants.TYPE] as StringValue).value else null
+        if (annotationArgumentMap.containsKey(ParserConstants.TYPE) && annotationArgumentMap[ParserConstants.TYPE] !is NullValue) {
+            (annotationArgumentMap[ParserConstants.TYPE] as StringValue).value
+        } else { null
+        }
     )
     val className = ClassName(packageName = packageName, simpleNames = listOf(simpleName))
     val annotation: AnnotationSpec.Builder = AnnotationSpec.builder(className)
@@ -326,9 +329,14 @@ private fun generateCode(config: CodeGenConfig, value: Value<Value<*>>, annotati
                 val className = string.dropLast(ParserConstants.CLASS_LENGTH)
                 // Use annotationName and className in the PackagerParserUtil to get Class Package name.
                 val classPackage = PackageParserUtil.getClassPackage(config, annotationName, className)
-                if (classPackage.isNotEmpty()) CodeBlock.of("$prefix%T::class", ClassName(classPackage, className))
-                else CodeBlock.of("$prefix%S", string)
-            } else CodeBlock.of("$prefix%S", string)
+                if (classPackage.isNotEmpty()) {
+                    CodeBlock.of("$prefix%T::class", ClassName(classPackage, className))
+                } else {
+                    CodeBlock.of("$prefix%S", string)
+                }
+            } else {
+                CodeBlock.of("$prefix%S", string)
+            }
         }
         is FloatValue -> CodeBlock.of("$prefix%L", (value as FloatValue).value)
         // In an enum value the prefix/type (key in the parameters map for the enum) is used to get the package name from the config
@@ -336,14 +344,22 @@ private fun generateCode(config: CodeGenConfig, value: Value<Value<*>>, annotati
             "$prefix%M",
             MemberName(
                 // Use annotationName in the PackagerParserUtil to get Enum Package name.
-                if (prefix.isNotEmpty()) PackageParserUtil.getEnumPackage(config, annotationName, prefix.substringBefore(ParserConstants.ASSIGNMENT_OPERATOR))
-                else PackageParserUtil.getEnumPackage(config, annotationName, type.substringBefore(ParserConstants.ASSIGNMENT_OPERATOR)),
+                if (prefix.isNotEmpty()) {
+                    PackageParserUtil.getEnumPackage(config, annotationName, prefix.substringBefore(ParserConstants.ASSIGNMENT_OPERATOR))
+                } else {
+                    PackageParserUtil.getEnumPackage(config, annotationName, type.substringBefore(ParserConstants.ASSIGNMENT_OPERATOR))
+                },
                 (value as EnumValue).name
             )
         )
         is ArrayValue ->
-            if ((value as ArrayValue).values.isEmpty()) CodeBlock.of("[]")
-            else CodeBlock.of("$prefix[%L]", (value as ArrayValue).values.joinToString { v -> generateCode(config = config, value = v, annotationName = annotationName, type = if (v is EnumValue) prefix else "").toString() })
+            if ((value as ArrayValue).values.isEmpty()) {
+                CodeBlock.of("[]")
+            } else {
+                CodeBlock.of("$prefix[%L]", (value as ArrayValue).values.joinToString { v -> generateCode(config = config, value = v, annotationName = annotationName, type = if (v is EnumValue) { prefix
+                } else { ""
+                }).toString() })
+            }
         else -> CodeBlock.of("$prefix%L", value)
     }
 

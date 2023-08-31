@@ -132,19 +132,23 @@ class InputTypeGenerator(config: CodeGenConfig, document: Document) : BaseDataTy
                     is StringValue -> CodeBlock.of("\$S", defVal.value)
                     is FloatValue -> CodeBlock.of("\$L", defVal.value)
                     is EnumValue -> CodeBlock.of("\$T.\$N", typeUtils.findReturnType(it.type), defVal.name)
-                    is ArrayValue -> if (defVal.values.isEmpty()) CodeBlock.of("java.util.Collections.emptyList()") else CodeBlock.of(
-                        "java.util.Arrays.asList(\$L)",
-                        defVal.values.map { v ->
-                            when (v) {
-                                is BooleanValue -> CodeBlock.of("\$L", v.isValue)
-                                is IntValue -> CodeBlock.of("\$L", v.value)
-                                is StringValue -> CodeBlock.of("\$S", v.value)
-                                is FloatValue -> CodeBlock.of("\$L", v.value)
-                                is EnumValue -> CodeBlock.of("\$L.\$N", ((it.type as ListType).type as TypeName).name, v.name)
-                                else -> ""
-                            }
-                        }.joinToString()
-                    )
+                    is ArrayValue -> if (defVal.values.isEmpty()) {
+                        CodeBlock.of("java.util.Collections.emptyList()")
+                    } else {
+                        CodeBlock.of(
+                                "java.util.Arrays.asList(\$L)",
+                                defVal.values.map { v ->
+                                    when (v) {
+                                        is BooleanValue -> CodeBlock.of("\$L", v.isValue)
+                                        is IntValue -> CodeBlock.of("\$L", v.value)
+                                        is StringValue -> CodeBlock.of("\$S", v.value)
+                                        is FloatValue -> CodeBlock.of("\$L", v.value)
+                                        is EnumValue -> CodeBlock.of("\$L.\$N", ((it.type as ListType).type as TypeName).name, v.name)
+                                        else -> ""
+                                    }
+                                }.joinToString()
+                        )
+                    }
                     else -> CodeBlock.of("\$L", defVal)
                 }
             }
@@ -301,10 +305,15 @@ abstract class BaseDataTypeGenerator(
         val methodBuilder = MethodSpec.methodBuilder("toString").addAnnotation(Override::class.java).addModifiers(Modifier.PUBLIC).returns(String::class.java)
         val toStringBody = StringBuilder("return \"${javaType.build().name}{\" + ")
         fieldDefinitions.forEachIndexed { index, field ->
-            val fieldValueStatement = if (field.directives.stream().anyMatch { it -> it.name.equals("sensitive") }) "\"*****\"" else ReservedKeywordSanitizer.sanitize(field.name)
+            val fieldValueStatement = if (field.directives.stream().anyMatch { it -> it.name.equals("sensitive") }) { "\"*****\""
+            } else {
+                ReservedKeywordSanitizer.sanitize(field.name)
+            }
             toStringBody.append(
                 """
-                "${field.name}='" + $fieldValueStatement + "'${if (index < fieldDefinitions.size - 1) "," else ""}" +
+                "${field.name}='" + $fieldValueStatement + "'${if (index < fieldDefinitions.size - 1) { ","
+                } else { ""
+                }}" +
                 """.trimIndent()
             )
         }
@@ -346,7 +355,11 @@ abstract class BaseDataTypeGenerator(
 
     private fun addInterface(type: String, javaType: TypeSpec.Builder) {
         val interfaceTypeMappedName: String? = config.typeMapping[type]
-        val interfaceName: ClassName = if (interfaceTypeMappedName == null) ClassName.get(packageName, type) else ClassName.bestGuess(interfaceTypeMappedName)
+        val interfaceName: ClassName = if (interfaceTypeMappedName == null) {
+            ClassName.get(packageName, type)
+        } else {
+            ClassName.bestGuess(interfaceTypeMappedName)
+        }
 
         javaType.addSuperinterface(interfaceName)
     }

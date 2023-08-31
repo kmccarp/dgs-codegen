@@ -105,13 +105,16 @@ class KotlinInputTypeGenerator(config: CodeGenConfig, document: Document) :
             is FloatValue -> CodeBlock.of("%L", value.value)
             is EnumValue -> CodeBlock.of("%M", MemberName(type.className, value.name))
             is ArrayValue ->
-                if (value.values.isEmpty()) CodeBlock.of("emptyList()")
-                else CodeBlock.of("listOf(%L)", value.values.joinToString { v -> generateCode(v, type).toString() })
+                if (value.values.isEmpty()) {
+                    CodeBlock.of("emptyList()")
+                } else {
+                    CodeBlock.of("listOf(%L)", value.values.joinToString { v -> generateCode(v, type).toString() })
+                }
             else -> CodeBlock.of("%L", value)
         }
 
     private val KtTypeName.className: ClassName
-        get() = when (this) {
+        get(val val val) = when (this) {
             is ClassName -> this
             is ParameterizedTypeName -> typeArguments[0].className
             else -> TODO()
@@ -168,7 +171,11 @@ abstract class AbstractKotlinDataTypeGenerator(
         val funConstructorBuilder = FunSpec.constructorBuilder()
 
         fields.forEach { field ->
-            val returnType = if (field.nullable) field.type.copy(nullable = true) else field.type
+            val returnType = if (field.nullable) {
+                field.type.copy(nullable = true)
+            } else {
+                field.type
+            }
 
             val parameterSpec =
                 ParameterSpec
@@ -183,12 +190,24 @@ abstract class AbstractKotlinDataTypeGenerator(
                 parameterSpec.defaultValue(field.default)
             } else {
                 when (returnType) {
-                    STRING -> if (field.nullable) parameterSpec.defaultValue("null")
-                    INT -> if (field.nullable) parameterSpec.defaultValue("null")
-                    FLOAT -> if (field.nullable) parameterSpec.defaultValue("null")
-                    DOUBLE -> if (field.nullable) parameterSpec.defaultValue("null")
-                    BOOLEAN -> if (field.nullable) parameterSpec.defaultValue("null")
-                    else -> if (field.nullable) parameterSpec.defaultValue("null")
+                    STRING -> if (field.nullable) {
+                        parameterSpec.defaultValue("null")
+                    }
+                    INT -> if (field.nullable) {
+                        parameterSpec.defaultValue("null")
+                    }
+                    FLOAT -> if (field.nullable) {
+                        parameterSpec.defaultValue("null")
+                    }
+                    DOUBLE -> if (field.nullable) {
+                        parameterSpec.defaultValue("null")
+                    }
+                    BOOLEAN -> if (field.nullable) {
+                        parameterSpec.defaultValue("null")
+                    }
+                    else -> if (field.nullable) {
+                        parameterSpec.defaultValue("null")
+                    }
                 }
             }
             funConstructorBuilder.addParameter(parameterSpec.build())
@@ -196,7 +215,11 @@ abstract class AbstractKotlinDataTypeGenerator(
         kotlinType.primaryConstructor(funConstructorBuilder.build())
 
         fields.forEach { field ->
-            val returnType = if (field.nullable) field.type.copy(nullable = true) else field.type
+            val returnType = if (field.nullable) {
+                field.type.copy(nullable = true)
+            } else {
+                field.type
+            }
             val propertySpecBuilder = PropertySpec.builder(field.name, returnType)
 
             if (field.description != null) {
