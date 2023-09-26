@@ -28,18 +28,18 @@ import java.util.Properties
 object ClientUtilsConventions {
     const val GRADLE_CLASSPATH_CONFIGURATION = "implementation"
 
-    private const val CLIENT_UTILS_ARTIFACT_GROUP = "com.netflix.graphql.dgs.codegen"
-    private const val CLIENT_UTILS_ARTIFACT_NAME = "graphql-dgs-codegen-shared-core"
-    private const val CLIENT_UTILS_NEBULA_LOCK_ID = "com.netflix.nebula.dependency-lock"
+    private const val clientUtilsArtifactGroup = "com.netflix.graphql.dgs.codegen"
+    private const val clientUtilsArtifactName = "graphql-dgs-codegen-shared-core"
+    private const val clientUtilsNebulaLockId = "com.netflix.nebula.dependency-lock"
 
     private val logger = Logging.getLogger(ClientUtilsConventions::class.java)
 
     fun getDependencyString(version: String? = null): String {
         if (version != null) {
-            return "$CLIENT_UTILS_ARTIFACT_GROUP:$CLIENT_UTILS_ARTIFACT_NAME:$version"
+            return "$clientUtilsArtifactGroup:$clientUtilsArtifactName:$version"
         }
 
-        return "$CLIENT_UTILS_ARTIFACT_GROUP:$CLIENT_UTILS_ARTIFACT_NAME"
+        return "$clientUtilsArtifactGroup:$clientUtilsArtifactName"
     }
 
     fun apply(
@@ -55,7 +55,7 @@ object ClientUtilsConventions {
             configurationDependencies.add(project.dependencies.create(dependencyString))
             logger.info("DGS CodeGen added dependency [{}] to {}.", dependencyString, dependencyConfiguration)
 
-            project.plugins.withId(CLIENT_UTILS_NEBULA_LOCK_ID) {
+            project.plugins.withId(clientUtilsNebulaLockId) {
                 val extension = project.extensions.getByType(DependencyLockExtension::class.java)
                 if (extension != null) {
                     extension.skippedDependencies.add(dependencyLockString)
@@ -80,7 +80,9 @@ object ClientUtilsConventions {
         pluginProperties.flatMap { Optional.ofNullable(it.getProperty("Implementation-Version")) }
 
     private fun clientCoreArtifact(optionalVersion: Optional<String>): Optional<String> {
-        val version = if (optionalVersion.isPresent) optionalVersion else pluginMetaInfVersion
+        val version = if (optionalVersion.isPresent) { optionalVersion
+        } else { pluginMetaInfVersion
+        }
         return version.map(::getDependencyString)
     }
 }

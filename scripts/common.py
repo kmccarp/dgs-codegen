@@ -38,7 +38,7 @@ class Out:
         print(f"{BColors.FAIL}{BColors.BOLD}ERROR{BColors.ENDC}:{message}", *args)
 
     @staticmethod
-    def usage(command, help_message):
+    def usage(command, helpMessage):
         print(f"""
         {BColors.HEADER}Command:{BColors.ENDC}{command}
         {help_message}

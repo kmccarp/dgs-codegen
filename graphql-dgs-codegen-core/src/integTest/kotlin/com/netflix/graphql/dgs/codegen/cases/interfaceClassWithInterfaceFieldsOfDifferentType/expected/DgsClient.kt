@@ -1,3 +1,0 @@
-package com.netflix.graphql.dgs.codegen.cases.interfaceClassWithInterfaceFieldsOfDifferentType.expected
-
-public object DgsClient

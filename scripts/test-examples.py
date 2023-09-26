@@ -59,9 +59,9 @@ def clone_repos(config, target):
     if not git_uris:
         Out.error("The repositories to clone are missing, make sure the config file defines a repos section.")
         exit(-2)
-    for g_uri in git_uris:
+    for gUri in git_uris:
         try:
-            cloned_repo = git.Git(target).clone(g_uri)
+            cloned_repo = git.Git(target).clone(gUri)
             if cloned_repo:
                 cloned_repos.append(cloned_repo)
                 Out.info(f"Repository [{g_uri}] cloned to [{target}].")
@@ -82,19 +82,19 @@ def find_replace_version(content, version):
     return re.sub(regex, version, content)
 
 
-def generate_gradle_settings(settings_template, version, settings_target):
-    file = open(settings_template, 'r')
+def generate_gradle_settings(settingsTemplate, version, settingsTarget):
+    file = open(settingsTemplate, 'r')
     file_data = file.read()
     file.close()
 
     file_data = find_replace_version(file_data, version)
 
-    file = open(settings_target, 'w')
+    file = open(settingsTarget, 'w')
     file.write(file_data)
     file.close()
 
 
-def infer_build_file(project_dir):
+def infer_build_file(projectDir):
     if os.path.isfile(f"{project_dir}/build.gradle.kts"):
         build_file = f"{project_dir}/build.gradle.kts"
     elif os.path.isfile(f"{project_dir}/build.gradle"):
@@ -106,8 +106,8 @@ def infer_build_file(project_dir):
     return build_file
 
 
-def run_example_build(settings_file, project_dir):
-    command = [gradlew, "-p", project_dir, "-c", settings_file, "clean", "check"]
+def run_example_build(settingsFile, project_dir):
+    command = [gradlew, "-p", project_dir, "-c", settingsFile, "clean", "check"]
     str_cmd = " ".join(command)
     try:
         Out.info(f"Running {str_cmd}")
