@@ -21,8 +21,8 @@ public class DogProjection : GraphQLProjection() {
       return this
     }
 
-  public fun mother(_projection: DogProjection.() -> DogProjection): DogProjection {
-    field("mother", DogProjection(), _projection)
+  public fun mother(projection: DogProjection.() -> DogProjection): DogProjection {
+    field("mother", DogProjection(), projection)
     return this
   }
 

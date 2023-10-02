@@ -3,8 +3,8 @@ package com.netflix.graphql.dgs.codegen.cases.unionTypesWithoutInterfaceCanDeser
 import com.netflix.graphql.dgs.codegen.GraphQLProjection
 
 public class SearchResultProjection : GraphQLProjection() {
-  public fun onHuman(_projection: HumanProjection.() -> HumanProjection): SearchResultProjection {
-    fragment("Human", HumanProjection(), _projection)
+  public fun onHuman(projection: HumanProjection.() -> HumanProjection): SearchResultProjection {
+    fragment("Human", HumanProjection(), projection)
     return this
   }
 

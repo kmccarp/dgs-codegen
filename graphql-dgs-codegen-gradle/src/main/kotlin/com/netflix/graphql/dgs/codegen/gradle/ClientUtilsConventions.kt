@@ -28,9 +28,9 @@ import java.util.Properties
 object ClientUtilsConventions {
     const val GRADLE_CLASSPATH_CONFIGURATION = "implementation"
 
-    private const val CLIENT_UTILS_ARTIFACT_GROUP = "com.netflix.graphql.dgs.codegen"
-    private const val CLIENT_UTILS_ARTIFACT_NAME = "graphql-dgs-codegen-shared-core"
-    private const val CLIENT_UTILS_NEBULA_LOCK_ID = "com.netflix.nebula.dependency-lock"
+    private static const val CLIENT_UTILS_ARTIFACT_GROUP = "com.netflix.graphql.dgs.codegen"
+    private static const val CLIENT_UTILS_ARTIFACT_NAME = "graphql-dgs-codegen-shared-core"
+    private static const val CLIENT_UTILS_NEBULA_LOCK_ID = "com.netflix.nebula.dependency-lock"
 
     private val logger = Logging.getLogger(ClientUtilsConventions::class.java)
 
@@ -80,7 +80,9 @@ object ClientUtilsConventions {
         pluginProperties.flatMap { Optional.ofNullable(it.getProperty("Implementation-Version")) }
 
     private fun clientCoreArtifact(optionalVersion: Optional<String>): Optional<String> {
-        val version = if (optionalVersion.isPresent) optionalVersion else pluginMetaInfVersion
+        val version = if (optionalVersion.isPresent) { optionalVersion
+        } else { pluginMetaInfVersion
+        }
         return version.map(::getDependencyString)
     }
 }

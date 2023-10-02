@@ -9,8 +9,8 @@ public class DogProjection : GraphQLProjection() {
       return this
     }
 
-  public fun diet(_projection: VegetarianProjection.() -> VegetarianProjection): DogProjection {
-    field("diet", VegetarianProjection(), _projection)
+  public fun diet(projection: VegetarianProjection.() -> VegetarianProjection): DogProjection {
+    field("diet", VegetarianProjection(), projection)
     return this
   }
 }

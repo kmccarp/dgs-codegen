@@ -9,9 +9,9 @@ public class DietProjection : GraphQLProjection() {
       return this
     }
 
-  public fun onVegetarian(_projection: VegetarianProjection.() -> VegetarianProjection):
+  public fun onVegetarian(projection: VegetarianProjection.() -> VegetarianProjection):
       DietProjection {
-    fragment("Vegetarian", VegetarianProjection(), _projection)
+    fragment("Vegetarian", VegetarianProjection(), projection)
     return this
   }
 }
