@@ -115,7 +115,9 @@ class Kotlin2CodeGenTest {
 
         private fun listAllFiles(suffix: String): List<Path> {
             val path = getAbsolutePath(suffix)
-            if (!path.exists()) return emptyList()
+            if (!path.exists()) {
+                return emptyList()
+            }
             return Files.walk(path)
                 .filter { Files.isRegularFile(it) }
                 .toList()

@@ -32,7 +32,10 @@ class PackageParserUtil {
         fun getAnnotationPackage(config: CodeGenConfig, name: String, type: String? = null): Pair<String, String> {
             var packageName = name.substringBeforeLast(".", "")
             packageName =
-                if (packageName.isEmpty() && type != null) config.includeImports.getOrDefault(type, "") else packageName
+                if (packageName.isEmpty() && type != null) {
+                    config.includeImports.getOrDefault(type, "")
+                } else { packageName
+                }
             return packageName to name.substringAfterLast(".")
         }
 

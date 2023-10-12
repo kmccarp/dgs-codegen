@@ -89,7 +89,10 @@ class InterfaceGenerator(private val config: CodeGenConfig, private val document
         val implementations = document.getDefinitionsOfType(ObjectTypeDefinition::class.java).asSequence()
             .filter { node -> node.implements.any { it.isEqualTo(TypeName(definition.name)) } }
             .map { node ->
-                val nodeName = if (config.generateInterfaces) "I${node.name}" else node.name
+                val nodeName = if (config.generateInterfaces) { "I${node.name}"
+                } else {
+                    node.name
+                }
                 typeUtils.findJavaInterfaceName(nodeName, packageName)
             }
             .filterIsInstance<ClassName>()
@@ -114,7 +117,9 @@ class InterfaceGenerator(private val config: CodeGenConfig, private val document
         val returnType = typeUtils.findReturnType(fieldDefinition.type, useInterfaceType, true)
 
         val fieldName = fieldDefinition.name
-        val getterPrefix = if (returnType == com.squareup.javapoet.TypeName.BOOLEAN && config.generateIsGetterForPrimitiveBooleanFields) "is" else "get"
+        val getterPrefix = if (returnType == com.squareup.javapoet.TypeName.BOOLEAN && config.generateIsGetterForPrimitiveBooleanFields) { "is"
+        } else { "get"
+        }
         val getterBuilder = MethodSpec.methodBuilder(typeUtils.transformIfDefaultClassMethodExists("${getterPrefix}${fieldName.capitalized()}", TypeUtils.Companion.getClass))
             .addModifiers(Modifier.ABSTRACT, Modifier.PUBLIC)
             .returns(returnType)

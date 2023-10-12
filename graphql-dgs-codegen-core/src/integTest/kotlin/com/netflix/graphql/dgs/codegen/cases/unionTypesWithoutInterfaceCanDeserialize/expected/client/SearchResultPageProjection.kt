@@ -3,9 +3,9 @@ package com.netflix.graphql.dgs.codegen.cases.unionTypesWithoutInterfaceCanDeser
 import com.netflix.graphql.dgs.codegen.GraphQLProjection
 
 public class SearchResultPageProjection : GraphQLProjection() {
-  public fun items(_projection: SearchResultProjection.() -> SearchResultProjection):
+  public fun items(projection: SearchResultProjection.() -> SearchResultProjection):
       SearchResultPageProjection {
-    field("items", SearchResultProjection(), _projection)
+    field("items", SearchResultProjection(), projection)
     return this
   }
 }

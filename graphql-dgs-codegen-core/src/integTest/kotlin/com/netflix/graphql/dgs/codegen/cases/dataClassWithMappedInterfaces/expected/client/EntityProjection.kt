@@ -9,8 +9,8 @@ public class EntityProjection : GraphQLProjection() {
       return this
     }
 
-  public fun onProduct(_projection: ProductProjection.() -> ProductProjection): EntityProjection {
-    fragment("Product", ProductProjection(), _projection)
+  public fun onProduct(projection: ProductProjection.() -> ProductProjection): EntityProjection {
+    fragment("Product", ProductProjection(), projection)
     return this
   }
 }

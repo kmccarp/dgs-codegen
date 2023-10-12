@@ -46,7 +46,11 @@ class CodegenPlugin : Plugin<Project> {
         val javaConvention = project.convention.getPlugin(JavaPluginConvention::class.java)
         val javaExtension = project.extensions.getByType(JavaPluginExtension::class.java)
 
-        val sourceSets = if (GradleVersion.current() >= GradleVersion.version("7.1")) javaExtension.sourceSets else javaConvention.sourceSets
+        val sourceSets = if (GradleVersion.current() >= GradleVersion.version("7.1")) {
+            javaExtension.sourceSets
+        } else {
+            javaConvention.sourceSets
+        }
         val mainSourceSet = sourceSets.getByName(SourceSet.MAIN_SOURCE_SET_NAME)
         val outputDir = generateJavaTaskProvider.map(GenerateJavaTask::getOutputDir)
         mainSourceSet.java.srcDirs(project.files(outputDir).builtBy(generateJavaTaskProvider))

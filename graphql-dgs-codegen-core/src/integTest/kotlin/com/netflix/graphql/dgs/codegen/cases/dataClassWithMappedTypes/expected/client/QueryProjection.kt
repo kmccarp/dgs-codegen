@@ -3,8 +3,8 @@ package com.netflix.graphql.dgs.codegen.cases.dataClassWithMappedTypes.expected.
 import com.netflix.graphql.dgs.codegen.GraphQLProjection
 
 public class QueryProjection : GraphQLProjection() {
-  public fun entity(_projection: EntityProjection.() -> EntityProjection): QueryProjection {
-    field("entity", EntityProjection(), _projection)
+  public fun entity(projection: EntityProjection.() -> EntityProjection): QueryProjection {
+    field("entity", EntityProjection(), projection)
     return this
   }
 

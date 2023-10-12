@@ -61,7 +61,10 @@ class KotlinInterfaceTypeGenerator(private val config: CodeGenConfig, private va
 
         mergedFieldDefinitions.forEach { field ->
             val returnType = typeUtils.findReturnType(field.type)
-            val nullableType = if (typeUtils.isNullable(field.type)) returnType.copy(nullable = true) else returnType
+            val nullableType = if (typeUtils.isNullable(field.type)) {
+                returnType.copy(nullable = true)
+            } else { returnType
+            }
             val propertySpec = PropertySpec.builder(field.name, nullableType)
             if (field.description != null) {
                 propertySpec.addKdoc("%L", field.description.sanitizeKdoc())

@@ -237,7 +237,9 @@ class CodeGen(private val config: CodeGenConfig) {
                     ClientApiGenerator(config, document).generate(it, methodNames)
                 }
                 .fold(CodeGenResult()) { t: CodeGenResult, u: CodeGenResult -> t.merge(u) }
-        } else CodeGenResult()
+        } else {
+            CodeGenResult()
+        }
     }
 
     private fun generateJavaClientEntitiesApi(definitions: Collection<Definition<*>>): CodeGenResult {
@@ -247,7 +249,9 @@ class CodeGen(private val config: CodeGenConfig) {
                 .filter { it.hasDirective("key") }
                 .toList()
             ClientApiGenerator(config, document).generateEntities(federatedDefinitions)
-        } else CodeGenResult()
+        } else {
+            CodeGenResult()
+        }
     }
 
     private fun generateJavaClientEntitiesRepresentations(definitions: Collection<Definition<*>>): CodeGenResult {
@@ -259,7 +263,9 @@ class CodeGen(private val config: CodeGenConfig) {
                 .map { d ->
                     EntitiesRepresentationTypeGenerator(config, document).generate(d, generatedRepresentations)
                 }.fold(CodeGenResult()) { t: CodeGenResult, u: CodeGenResult -> t.merge(u) }
-        } else CodeGenResult()
+        } else {
+            CodeGenResult()
+        }
     }
 
     private fun generateJavaDataFetchers(definitions: Collection<Definition<*>>): CodeGenResult {
@@ -407,7 +413,9 @@ class CodeGen(private val config: CodeGenConfig) {
                 .map { d ->
                     KotlinEntitiesRepresentationTypeGenerator(config, document).generate(d, generatedRepresentations)
                 }.fold(CodeGenResult()) { t: CodeGenResult, u: CodeGenResult -> t.merge(u) }
-        } else CodeGenResult()
+        } else {
+            CodeGenResult()
+        }
     }
 
     private fun generateKotlinInputTypes(definitions: Collection<Definition<*>>): CodeGenResult {
@@ -522,17 +530,31 @@ class CodeGenConfig(
             --sub-package-name-datafetchers=$subPackageNameDatafetchers
             --sub-package-name-types=$subPackageNameTypes
             --sub-package-name-docs=$subPackageNameDocs
-            ${if (generateBoxedTypes) "--generate-boxed-types" else ""}
-            ${if (writeToFiles) "--write-to-disk" else ""}
+            ${if (generateBoxedTypes) { "--generate-boxed-types"
+        } else { ""
+        }}
+            ${if (writeToFiles) { "--write-to-disk"
+        } else { ""
+        }}
             --language=$language
-            ${if (generateClientApi) "--generate-client" else ""}
-            ${if (generateDataTypes) "--generate-data-types" else "--skip-generate-data-types"}
+            ${if (generateClientApi) { "--generate-client"
+        } else { ""
+        }}
+            ${if (generateDataTypes) { "--generate-data-types"
+        } else { "--skip-generate-data-types"
+        }}
             ${includeQueries.joinToString("\n") { "--include-query=$it" }}
             ${includeMutations.joinToString("\n") { "--include-mutation=$it" }}
-            ${if (skipEntityQueries) "--skip-entities" else ""}
+            ${if (skipEntityQueries) { "--skip-entities"
+        } else { ""
+        }}
             ${typeMapping.map { "--type-mapping ${it.key}=${it.value}" }.joinToString("\n")}           
-            ${if (shortProjectionNames) "--short-projection-names" else ""}
-            ${if (addGeneratedAnnotation) "--add-generated-annotation" else ""}
+            ${if (shortProjectionNames) { "--short-projection-names"
+        } else { ""
+        }}
+            ${if (addGeneratedAnnotation) { "--add-generated-annotation"
+        } else { ""
+        }}
             ${schemas.joinToString(" ")}
         """.trimIndent()
     }
