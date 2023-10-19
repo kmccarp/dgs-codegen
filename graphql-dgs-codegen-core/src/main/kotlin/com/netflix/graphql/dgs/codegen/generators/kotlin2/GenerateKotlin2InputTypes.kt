@@ -124,7 +124,9 @@ fun generateKotlin2InputTypes(
                         .addCode(
                             fields.let { fs ->
                                 val builder = CodeBlock.builder().add("return listOf(")
-                                fs.forEachIndexed { i, f -> builder.add("%S to %N%L", f.name, f.name, if (i < fs.size.dec()) ", " else "") }
+                                fs.forEachIndexed { i, f -> builder.add("%S to %N%L", f.name, f.name, if (i < fs.size.dec()) { ", "
+                                } else { ""
+                                }) }
                                 builder.add(")").build()
                             }
                         )

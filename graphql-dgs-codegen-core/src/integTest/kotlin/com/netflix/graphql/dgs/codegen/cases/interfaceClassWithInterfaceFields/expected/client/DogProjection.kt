@@ -21,18 +21,18 @@ public class DogProjection : GraphQLProjection() {
       return this
     }
 
-  public fun mother(_projection: DogProjection.() -> DogProjection): DogProjection {
-    field("mother", DogProjection(), _projection)
+  public fun mother(projection: DogProjection.() -> DogProjection): DogProjection {
+    field("mother", DogProjection(), projection)
     return this
   }
 
-  public fun father(_projection: DogProjection.() -> DogProjection): DogProjection {
-    field("father", DogProjection(), _projection)
+  public fun father(projection: DogProjection.() -> DogProjection): DogProjection {
+    field("father", DogProjection(), projection)
     return this
   }
 
-  public fun parents(_projection: DogProjection.() -> DogProjection): DogProjection {
-    field("parents", DogProjection(), _projection)
+  public fun parents(projection: DogProjection.() -> DogProjection): DogProjection {
+    field("parents", DogProjection(), projection)
     return this
   }
 }

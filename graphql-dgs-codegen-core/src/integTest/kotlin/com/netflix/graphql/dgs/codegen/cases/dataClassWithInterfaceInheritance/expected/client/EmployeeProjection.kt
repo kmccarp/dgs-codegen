@@ -21,8 +21,8 @@ public class EmployeeProjection : GraphQLProjection() {
       return this
     }
 
-  public fun onTalent(_projection: TalentProjection.() -> TalentProjection): EmployeeProjection {
-    fragment("Talent", TalentProjection(), _projection)
+  public fun onTalent(projection: TalentProjection.() -> TalentProjection): EmployeeProjection {
+    fragment("Talent", TalentProjection(), projection)
     return this
   }
 }

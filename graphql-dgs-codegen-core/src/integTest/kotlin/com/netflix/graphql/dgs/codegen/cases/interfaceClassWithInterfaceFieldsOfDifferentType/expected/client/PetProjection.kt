@@ -9,13 +9,13 @@ public class PetProjection : GraphQLProjection() {
       return this
     }
 
-  public fun diet(_projection: DietProjection.() -> DietProjection): PetProjection {
-    field("diet", DietProjection(), _projection)
+  public fun diet(projection: DietProjection.() -> DietProjection): PetProjection {
+    field("diet", DietProjection(), projection)
     return this
   }
 
-  public fun onDog(_projection: DogProjection.() -> DogProjection): PetProjection {
-    fragment("Dog", DogProjection(), _projection)
+  public fun onDog(projection: DogProjection.() -> DogProjection): PetProjection {
+    fragment("Dog", DogProjection(), projection)
     return this
   }
 }

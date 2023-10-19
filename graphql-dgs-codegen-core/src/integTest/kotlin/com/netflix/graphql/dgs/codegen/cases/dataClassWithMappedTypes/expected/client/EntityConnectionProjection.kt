@@ -3,15 +3,15 @@ package com.netflix.graphql.dgs.codegen.cases.dataClassWithMappedTypes.expected.
 import com.netflix.graphql.dgs.codegen.GraphQLProjection
 
 public class EntityConnectionProjection : GraphQLProjection() {
-  public fun pageInfo(_projection: PageInfoProjection.() -> PageInfoProjection):
+  public fun pageInfo(projection: PageInfoProjection.() -> PageInfoProjection):
       EntityConnectionProjection {
-    field("pageInfo", PageInfoProjection(), _projection)
+    field("pageInfo", PageInfoProjection(), projection)
     return this
   }
 
-  public fun edges(_projection: EntityEdgeProjection.() -> EntityEdgeProjection):
+  public fun edges(projection: EntityEdgeProjection.() -> EntityEdgeProjection):
       EntityConnectionProjection {
-    field("edges", EntityEdgeProjection(), _projection)
+    field("edges", EntityEdgeProjection(), projection)
     return this
   }
 }

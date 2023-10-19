@@ -21,28 +21,28 @@ public class PetProjection : GraphQLProjection() {
       return this
     }
 
-  public fun mother(_projection: PetProjection.() -> PetProjection): PetProjection {
-    field("mother", PetProjection(), _projection)
+  public fun mother(projection: PetProjection.() -> PetProjection): PetProjection {
+    field("mother", PetProjection(), projection)
     return this
   }
 
-  public fun father(_projection: PetProjection.() -> PetProjection): PetProjection {
-    field("father", PetProjection(), _projection)
+  public fun father(projection: PetProjection.() -> PetProjection): PetProjection {
+    field("father", PetProjection(), projection)
     return this
   }
 
-  public fun parents(_projection: PetProjection.() -> PetProjection): PetProjection {
-    field("parents", PetProjection(), _projection)
+  public fun parents(projection: PetProjection.() -> PetProjection): PetProjection {
+    field("parents", PetProjection(), projection)
     return this
   }
 
-  public fun onDog(_projection: DogProjection.() -> DogProjection): PetProjection {
-    fragment("Dog", DogProjection(), _projection)
+  public fun onDog(projection: DogProjection.() -> DogProjection): PetProjection {
+    fragment("Dog", DogProjection(), projection)
     return this
   }
 
-  public fun onBird(_projection: BirdProjection.() -> BirdProjection): PetProjection {
-    fragment("Bird", BirdProjection(), _projection)
+  public fun onBird(projection: BirdProjection.() -> BirdProjection): PetProjection {
+    fragment("Bird", BirdProjection(), projection)
     return this
   }
 }

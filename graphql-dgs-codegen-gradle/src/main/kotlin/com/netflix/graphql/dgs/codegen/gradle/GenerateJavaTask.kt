@@ -60,7 +60,9 @@ open class GenerateJavaTask @Inject constructor(
     }
 
     @Input
-    var language = if (hasKotlinPluginWrapperClass && project.plugins.hasPlugin(KotlinPluginWrapper::class.java)) "KOTLIN" else "JAVA"
+    var language = if (hasKotlinPluginWrapperClass && project.plugins.hasPlugin(KotlinPluginWrapper::class.java)) { "KOTLIN"
+    } else { "JAVA"
+    }
 
     @Input
     var typeMapping = mutableMapOf<String, String>()

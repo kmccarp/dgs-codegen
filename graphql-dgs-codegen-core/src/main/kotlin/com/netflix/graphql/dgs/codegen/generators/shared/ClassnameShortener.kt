@@ -32,7 +32,9 @@ class ClassnameShortener {
                 val fieldSb = StringBuilder()
                 val splitByCapitalized = it.split(Regex("(?=[A-Z])"))
                 splitByCapitalized.filter { it.isNotEmpty() }.forEach {
-                    fieldSb.append(it.substring(0, if (it.length > 1) 2 else 1))
+                    fieldSb.append(it.substring(0, if (it.length > 1) { 2
+                    } else { 1
+                    }))
                 }
                 sb.append(fieldSb.toString()).append("_")
             }

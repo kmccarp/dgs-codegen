@@ -21,9 +21,9 @@ public class EngineProjection : GraphQLProjection() {
       return this
     }
 
-  public fun performance(_projection: PerformanceProjection.() -> PerformanceProjection):
+  public fun performance(projection: PerformanceProjection.() -> PerformanceProjection):
       EngineProjection {
-    field("performance", PerformanceProjection(), _projection)
+    field("performance", PerformanceProjection(), projection)
     return this
   }
 }

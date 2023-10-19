@@ -3,13 +3,13 @@ package com.netflix.graphql.dgs.codegen.cases.constantsWithExtendedQuery.expecte
 import com.netflix.graphql.dgs.codegen.GraphQLProjection
 
 public class QueryProjection : GraphQLProjection() {
-  public fun people(_projection: PersonProjection.() -> PersonProjection): QueryProjection {
-    field("people", PersonProjection(), _projection)
+  public fun people(projection: PersonProjection.() -> PersonProjection): QueryProjection {
+    field("people", PersonProjection(), projection)
     return this
   }
 
-  public fun friends(_projection: PersonProjection.() -> PersonProjection): QueryProjection {
-    field("friends", PersonProjection(), _projection)
+  public fun friends(projection: PersonProjection.() -> PersonProjection): QueryProjection {
+    field("friends", PersonProjection(), projection)
     return this
   }
 }

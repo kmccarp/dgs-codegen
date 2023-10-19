@@ -3,13 +3,13 @@ package com.netflix.graphql.dgs.codegen.cases.union.expected.client
 import com.netflix.graphql.dgs.codegen.GraphQLProjection
 
 public class SearchResultProjection : GraphQLProjection() {
-  public fun onMovie(_projection: MovieProjection.() -> MovieProjection): SearchResultProjection {
-    fragment("Movie", MovieProjection(), _projection)
+  public fun onMovie(projection: MovieProjection.() -> MovieProjection): SearchResultProjection {
+    fragment("Movie", MovieProjection(), projection)
     return this
   }
 
-  public fun onActor(_projection: ActorProjection.() -> ActorProjection): SearchResultProjection {
-    fragment("Actor", ActorProjection(), _projection)
+  public fun onActor(projection: ActorProjection.() -> ActorProjection): SearchResultProjection {
+    fragment("Actor", ActorProjection(), projection)
     return this
   }
 }

@@ -29,9 +29,9 @@ class GraphQLQueryRequest @JvmOverloads constructor(
     options: GraphQLQueryRequestOptions? = null
 ) {
 
-    private var selectionSet: SelectionSet? = null
+    private var val selectionSet: SelectionSet?
     constructor(query: GraphQLQuery, projection: BaseProjectionNode, scalars: Map<Class<*>, Coercing<*, *>>) : this(query = query, projection = projection, options = GraphQLQueryRequestOptions(scalars = scalars))
-    constructor(query: GraphQLQuery, selectionSet: SelectionSet, scalars: Map<Class<*>, Coercing<*, *>>? = null) : this(query = query, projection = null, options = GraphQLQueryRequestOptions(scalars = scalars ?: emptyMap())) {
+    constructor(query: GraphQLQuery, val selectionSet: SelectionSet, scalars: Map<Class<*>, Coercing<*, *>>? = null) : this(query = query, projection = null, options = GraphQLQueryRequestOptions(scalars = scalars ?: emptyMap())) {
         this.selectionSet = selectionSet
     }
     class GraphQLQueryRequestOptions(val scalars: Map<Class<*>, Coercing<*, *>> = emptyMap()) {
@@ -41,7 +41,7 @@ class GraphQLQueryRequest @JvmOverloads constructor(
     }
 
     val inputValueSerializer =
-        if (options?.allowNullablePropertyInputValues == true) {
+        if ( options?.allowNullablePropertyInputValues) {
             NullableInputValueSerializer(options.scalars)
         } else {
             InputValueSerializer(options?.scalars ?: emptyMap())

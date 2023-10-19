@@ -9,13 +9,13 @@ public class NodeProjection : GraphQLProjection() {
       return this
     }
 
-  public fun onEntity(_projection: EntityProjection.() -> EntityProjection): NodeProjection {
-    fragment("Entity", EntityProjection(), _projection)
+  public fun onEntity(projection: EntityProjection.() -> EntityProjection): NodeProjection {
+    fragment("Entity", EntityProjection(), projection)
     return this
   }
 
-  public fun onProduct(_projection: ProductProjection.() -> ProductProjection): NodeProjection {
-    fragment("Product", ProductProjection(), _projection)
+  public fun onProduct(projection: ProductProjection.() -> ProductProjection): NodeProjection {
+    fragment("Product", ProductProjection(), projection)
     return this
   }
 }

@@ -82,7 +82,9 @@ object EntitiesRepresentationTypeGeneratorUtils {
         data class Node(val key: String, val map: MutableMap<String, Any>, val parent: Node?)
 
         val keys = keyDirective.map { ds ->
-            ds.map { if (it == '{' || it == '}') " $it " else "$it" }
+            ds.map { if (it == '{' || it == '}') { " $it "
+                } else { "$it"
+                } }
                 .joinToString("", "", "")
                 .split(" ")
         }.flatten()
